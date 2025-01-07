@@ -1,9 +1,9 @@
-import { useLayoutEffect } from "react"
+import { useEffect } from "react"
 import { Outlet, useNavigate } from "react-router"
 
 const BaseLayout = () => {
     const navigate = useNavigate()
-    useLayoutEffect(() => {
+    useEffect(() => {
         const token = localStorage.getItem("token")
         if (!token) navigate("/auth/login")
     }, [])
