@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router"
 import { authRoutes, routes } from "./Routes"
 import AuthLayout from "../layouts/AuthLayout"
+import BaseLayout from "../layouts/BaseLayout"
 
 const Router = () => {
     return (
@@ -14,7 +15,9 @@ const Router = () => {
             }
             {
                 routes.map(route => (
-                    <Route key={route.path} path={route.path} element={route.element} />
+                    <Route key={route.path} element={<BaseLayout />}>
+                        <Route path={route.path} element={route.element} />
+                    </Route>
                 ))
             }
         </Routes>

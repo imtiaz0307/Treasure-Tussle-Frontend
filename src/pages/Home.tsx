@@ -1,6 +1,6 @@
 const Home = () => {
     return (
-        <div>Home</div>
+        <button onClick={() => localStorage.clear()}>Logout</button>
     )
 }
 

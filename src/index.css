@@ -2,14 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color: black;
-}
-
 .auth_layout{
     background: url(./assets/images/bg.webp);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    opacity: .4;
+    position: relative;
+}
+
+button:hover:not(:disabled){
+    filter: contrast(150%) brightness(150%);
+    transition: 250ms filter;
 }
