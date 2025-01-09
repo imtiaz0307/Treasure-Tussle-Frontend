@@ -16,7 +16,11 @@ const BaseLayout = () => {
 
     const getAndSetUser = async (token: string) => {
         const _user = await getUser(token)
-        setUser(_user)
+        if (!_user) {
+            logoutHandler()
+        } else {
+            setUser(_user)
+        }
     }
 
     useEffect(() => {
@@ -49,10 +53,7 @@ const BaseLayout = () => {
 
     const navigate = useNavigate()
     return (
-        <>
-            {user?.name}
-            <Outlet />
-        </>
+        <Outlet />
     )
 }
 

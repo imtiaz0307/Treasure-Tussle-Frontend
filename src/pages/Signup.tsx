@@ -3,6 +3,7 @@ import { FormEvent, useMemo, useReducer } from "react";
 import { Link, useNavigate } from "react-router";
 import countries from "../data/countries.json"
 import { Check, X } from "react-feather";
+import logo from "../assets/images/logo-trs.webp"
 
 type State = {
     name: string
@@ -116,17 +117,22 @@ const Signup = () => {
     }
 
     return (
-        <form className="flex flex-col gap-4 bg-white p-8 rounded-lg items-center w-96 transition-all" onSubmit={onSubmitHandler}>
-            <h1 className="text-2xl font-bold">Treasure Tussle</h1>
-            <h2 className="text-xl font-semibold">Start Your Journey Today</h2>
+        <form className="flex flex-col gap-4 bg-[#ffffffbd] backdrop-blur-lg sm:p-8 p-6 rounded-lg items-center w-full max-w-md transition-all" onSubmit={onSubmitHandler}>
+            {/* <h1 className="sm:text-2xl text-xl font-bold">Treasure Tussle</h1> */}
+            <img
+                src={logo}
+                alt="Teasure Tussle"
+                className="w-40 h-40 aspect-square"
+            />
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-600">Start Your Journey Today</h2>
             {
                 data.step === 1
                 &&
                 <>
                     <div className="flex flex-col gap-2 w-full items-center mt-4">
-                        <label className="text-md" htmlFor="name">Full Name</label>
+                        <label className="text-sm sm:text-md text-slate-600 font-semibold" htmlFor="name">Full Name</label>
                         <input
-                            className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                            className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                             type="text"
                             name="name"
                             id="name"
@@ -136,9 +142,9 @@ const Signup = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-2 w-full items-center">
-                        <label className="text-md" htmlFor="username">Username</label>
+                        <label className="text-sm sm:text-md text-slate-600 font-semibold" htmlFor="username">Username</label>
                         <input
-                            className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                            className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                             type="text"
                             name="username"
                             id="username"
@@ -154,9 +160,9 @@ const Signup = () => {
                 &&
                 <>
                     <div className="flex flex-col gap-2 w-full items-center mt-4">
-                        <label className="text-md" htmlFor="email">Email Address</label>
+                        <label className="text-sm sm:text-md text-slate-600 font-semibold" htmlFor="email">Email Address</label>
                         <input
-                            className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                            className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                             type="email"
                             name="email"
                             id="email"
@@ -166,9 +172,9 @@ const Signup = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-2 w-full items-center">
-                        <label className="text-md" htmlFor="country">Country</label>
+                        <label className="text-sm sm:text-md text-slate-600 font-semibold" htmlFor="country">Country</label>
                         <select
-                            className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                            className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                             name="country"
                             id="country"
                             value={data.country}
@@ -189,9 +195,9 @@ const Signup = () => {
                 &&
                 <>
                     <div className="flex flex-col gap-2 w-full items-center mt-4">
-                        <label className="text-md" htmlFor="password">Password</label>
+                        <label className="text-sm sm:text-md text-slate-600 font-semibold" htmlFor="password">Password</label>
                         <input
-                            className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                            className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                             type="password"
                             name="password"
                             id="password"
@@ -201,7 +207,7 @@ const Signup = () => {
                         />
                     </div>
                     <div
-                        className="p-6 bg-slate-100 rounded-lg flex flex-col gap-2 "
+                        className="sm:p-6 p-4 bg-white rounded-lg flex flex-col gap-2 w-full"
                     >
                         {
                             passwordRegex.map(item => (
@@ -212,19 +218,31 @@ const Signup = () => {
                                     {
                                         item.expression.test(data.password)
                                             ?
-                                            <div className="h-4 bg-green-500 w-4 flex items-center justify-center text-white rounded-full shrink-0"><Check size={12} /></div>
+                                            <div className="sm:h-4 h-3 bg-green-500 sm:w-4 w-3 flex items-center justify-center text-white rounded-full shrink-0"><Check size={12} /></div>
                                             :
-                                            <div className="h-4 bg-red-500 w-4 flex items-center justify-center text-white rounded-full shrink-0"><X size={12} /></div>
+                                            <div className="sm:h-4 h-3 bg-red-500 sm:w-4 w-3 flex items-center justify-center text-white rounded-full shrink-0"><X size={12} /></div>
                                     }
-                                    <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>
+                                    <span className="sm:text-sm text-xs font-medium sm:whitespace-nowrap">{item.label}</span>
                                 </div>
                             ))
                         }
+                        <div
+                            className="flex items-center gap-1"
+                        >
+                            {
+                                data.password === data.confirm_password
+                                    ?
+                                    <div className="sm:h-4 h-3 bg-green-500 sm:w-4 w-3 flex items-center justify-center text-white rounded-full shrink-0"><Check size={12} /></div>
+                                    :
+                                    <div className="sm:h-4 h-3 bg-red-500 sm:w-4 w-3 flex items-center justify-center text-white rounded-full shrink-0"><X size={12} /></div>
+                            }
+                            <span className="sm:text-sm text-xs font-medium sm:whitespace-nowrap">Password and confirm password must be same</span>
+                        </div>
                     </div>
                     <div className="flex flex-col gap-2 w-full items-center">
-                        <label className="text-md" htmlFor="confirm_password">Confirm Password</label>
+                        <label className="text-sm sm:text-md text-slate-600 font-semibold" htmlFor="confirm_password">Confirm Password</label>
                         <input
-                            className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                            className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                             type="password"
                             name="confirm_password"
                             id="confirm_password"
@@ -246,19 +264,19 @@ const Signup = () => {
                     data.step > 1
                     &&
                     <button
-                        className="p-3 bg-[#5926f0] w-full mt-4 rounded-md text-lg text-white font-semibold disabled:opacity-75"
+                        className="p-3 bg-emerald-gradient w-full mt-4 rounded-md sm:text-lg text-sm text-white font-semibold disabled:opacity-75"
                         type="button"
                         disabled={data.loading}
                         onClick={() => dataHandler("step", data.step - 1)}
                     >Back</button>
                 }
                 <button
-                    className="p-3 bg-[#5926f0] w-full mt-4 rounded-md text-lg text-white font-semibold disabled:opacity-75 transition-all"
+                    className="p-3 bg-emerald-gradient w-full mt-4 rounded-md sm:text-lg text-sm text-white font-semibold disabled:opacity-75 transition-all"
                     type="submit"
                     disabled={disabledButton || data.loading}
                 >{data.step === 3 ? "Signup" : "Next"}</button>
             </div>
-            <p className="text-sm mt-4">Already have an account?  <Link to={"/auth/login"} className="text-[#5926f0] underline">Login Now</Link></p>
+            <p className="text-xs sm:text-sm mt-4 text-slate-600">Already have an account?  <Link to={"/auth/login"} className="text-emerald-600 underline">Login Now</Link></p>
         </form>
     )
 }

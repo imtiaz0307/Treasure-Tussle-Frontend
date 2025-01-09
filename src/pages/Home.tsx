@@ -8,7 +8,9 @@ const Home = () => {
         navigate("/auth/login")
     }
     return (
-        <button onClick={logoutHandler}>Logout</button>
+        <div className="h-80 w-80">
+            <button className="text-white" onClick={logoutHandler}>Logout</button>
+        </div>
     )
 }
 

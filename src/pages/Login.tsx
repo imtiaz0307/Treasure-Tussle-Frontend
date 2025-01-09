@@ -1,9 +1,10 @@
 import axios from "axios";
 import { FormEvent, useReducer } from "react";
 import { Link, useNavigate } from "react-router";
-import { getUser } from "../services/user.services";
 import { useAtom } from "jotai";
 import { userAtom } from "../atoms";
+import logo from "../assets/images/logo-trs.webp"
+import Loader from "../components/Loader";
 
 type State = {
     email: string
@@ -44,8 +45,9 @@ const Login = () => {
 
     const loginHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!emailRegex.test(data.email) || data.password.length < 8)
-            dataHandler("loading", true)
+        dataHandler("loading", true)
+        dataHandler("error", "")
+        if (!emailRegex.test(data.email) || data.password.length < 8) return;
         try {
             const payload = { email: data.email, password: data.password }
             const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, payload)
@@ -63,13 +65,17 @@ const Login = () => {
     }
 
     return (
-        <form className="flex flex-col gap-4 bg-white p-8 rounded-lg items-center min-w-96" onSubmit={loginHandler}>
-            <h1 className="text-2xl font-bold">Treasure Tussle</h1>
-            <h2 className="text-xl font-semibold">Login To Your Account</h2>
+        <form className="flex flex-col gap-4 bg-[#ffffffbd] backdrop-blur-lg sm:p-8 p-6 rounded-lg items-center w-full max-w-md" onSubmit={loginHandler}>
+            <img
+                src={logo}
+                alt="Teasure Tussle"
+                className="w-40 h-40 aspect-square"
+            />
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-600">Login To Your Account</h2>
             <div className="flex flex-col gap-2 w-full items-center mt-4">
-                <label className="text-md" htmlFor="email">Email Address</label>
+                <label className="sm:text-md text-sm text-slate-600 font-semibold" htmlFor="email">Email Address</label>
                 <input
-                    className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                    className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                     type="email"
                     name="email"
                     id="email"
@@ -79,9 +85,9 @@ const Login = () => {
                 />
             </div>
             <div className="flex flex-col gap-2 w-full items-center">
-                <label className="text-md" htmlFor="password">Password</label>
+                <label className="sm:text-md text-sm text-slate-600 font-semibold" htmlFor="password">Password</label>
                 <input
-                    className="w-full p-3 rounded-md outline-none border-indigo-300 border"
+                    className="w-full p-3 rounded-md outline-none border-emerald-200 border"
                     type="password"
                     name="password"
                     id="password"
@@ -89,7 +95,7 @@ const Login = () => {
                     value={data.password}
                     onChange={e => dataHandler("password", e.target.value)}
                 />
-                <Link to={"/auth/login"} className="mt-2 text-[#5926f0] underline text-sm">Forgot Password?</Link>
+                <Link to={"/auth/login"} className="mt-2 text-emerald-600 underline text-xs sm:text-sm">Forgot Password?</Link>
             </div>
             {
                 data.error
@@ -97,10 +103,17 @@ const Login = () => {
                 <span className="text-red-600 font-semibold mt-2">{data.error}</span>
             }
             <button
-                className="p-3 bg-[#5926f0] w-full mt-4 rounded-md text-lg text-white font-semibold disabled:opacity-75"
+                className="p-3 bg-emerald-gradient w-full mt-4 rounded-md sm:text-lg text-sm  text-white font-semibold disabled:opacity-75"
                 disabled={!emailRegex.test(data.email) || data.password.length < 8 || data.loading}
-            >Login</button>
-            <p className="text-sm mt-4">Don't have an account?  <Link to={"/auth/signup"} className="text-[#5926f0] underline">Signup Now</Link></p>
+            >
+                {
+                    data.loading
+                    &&
+                    <Loader />
+                }
+                Login
+            </button>
+            <p className="text-xs sm:text-sm mt-4 text-slate-600">Don't have an account?  <Link to={"/auth/signup"} className="text-emerald-600 underline">Signup Now</Link></p>
         </form>
     )
 }
