@@ -1,6 +1,9 @@
 import axios from "axios";
 import { FormEvent, useReducer } from "react";
 import { Link, useNavigate } from "react-router";
+import { getUser } from "../services/user.services";
+import { useAtom } from "jotai";
+import { userAtom } from "../atoms";
 
 type State = {
     email: string
@@ -33,6 +36,7 @@ const reducer = (state: State, action: any) => {
 const Login = () => {
     const [data, dispatch] = useReducer(reducer, initialState);
     const navigate = useNavigate()
+    const [_, setUser] = useAtom(userAtom)
 
     const dataHandler = (field: string, value: any) => {
         dispatch({ type: "UPDATE_FIELD", field, value });
@@ -46,6 +50,7 @@ const Login = () => {
             const payload = { email: data.email, password: data.password }
             const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, payload)
             localStorage.setItem("token", res.data.token)
+            setUser(res.data.user)
             navigate("/")
         }
         catch (error: any) {
